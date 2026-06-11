@@ -1,5 +1,5 @@
-const dotenv = require('dotenv');  // ← Line 1 pe aao
-dotenv.config();                   // ← Line 2 pe config
+const dotenv = require('dotenv');
+dotenv.config();
 
 const dns = require('node:dns/promises');
 dns.setServers(["1.1.1.1", "1.0.0.1"]);
@@ -16,7 +16,15 @@ connectDB();
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:3000',
+    'http://localhost:5173',
+    process.env.CLIENT_URL,
+  ],
+  credentials: true,
+}));
+
 app.use(express.json());
 
 app.use('/api', apiRoutes);
